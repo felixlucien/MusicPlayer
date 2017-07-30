@@ -7,7 +7,7 @@ package felixmccuaig.musicplayer;
 public class Song {
 
     private String songName, artistName, songLocation, songAlbumArtLocation;
-    private long songID;
+    private long songID, albumID;
 
     public Song(String songName, String artistName, String songLocation, String songAlbumArtLocation, long songID) {
         this.songName = songName;
@@ -31,5 +31,13 @@ public class Song {
 
     public long getSongID() {
         return songID;
+    }
+
+    public String getSongAlbumArtLocation() {
+        return songAlbumArtLocation;
+    }
+
+    public long getAlbumID() {
+        return albumID;
     }
 }
