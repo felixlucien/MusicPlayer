@@ -16,6 +16,10 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    //TEST ONE TWO THREE THIS IS A LINE OF TEXT
+    //LINE TWO
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
