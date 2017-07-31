@@ -1,6 +1,5 @@
 package felixmccuaig.musicplayer.ui.tabs;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,7 @@ import java.util.List;
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.Song;
 import felixmccuaig.musicplayer.backend.MediaController;
-import felixmccuaig.musicplayer.backend.ResLoader;
+import felixmccuaig.musicplayer.backend.utils.ResLoader;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 /**

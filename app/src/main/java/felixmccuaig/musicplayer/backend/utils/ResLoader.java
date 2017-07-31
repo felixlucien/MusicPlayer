@@ -1,4 +1,4 @@
-package felixmccuaig.musicplayer.backend;
+package felixmccuaig.musicplayer.backend.utils;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

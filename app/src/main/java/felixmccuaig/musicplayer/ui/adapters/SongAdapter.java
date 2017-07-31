@@ -1,8 +1,6 @@
 package felixmccuaig.musicplayer.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,7 @@ import java.util.List;
 
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.Song;
-import felixmccuaig.musicplayer.backend.ResLoader;
+import felixmccuaig.musicplayer.backend.utils.StringShortener;
 
 /**
  * Created by felixmccuaig on 30/7/17.
@@ -59,8 +57,8 @@ public class SongAdapter extends BaseAdapter {
 
         currentSong = songList.get(i);
 
-        songNameText.setText(currentSong.getSongName());
-        artistText.setText(currentSong.getArtistName());
+        songNameText.setText(StringShortener.shortenString(currentSong.getSongName(), c.getResources(), new int[]{20, 40, 50, 60}));
+        artistText.setText(StringShortener.shortenString(currentSong.getArtistName(), c.getResources(), new int[]{20, 40, 50, 60}));
 
         Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(albumArt);
 

@@ -15,6 +15,7 @@ import java.util.List;
 import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.Song;
+import felixmccuaig.musicplayer.backend.utils.StringShortener;
 
 /**
  * Created by felixmccuaig on 30/7/17.
@@ -88,11 +89,11 @@ public class MediaController {
         Log.d("SONG POS", songPos + "");
 
         if(songName != null) {
-            songName.setText(currentSong.getSongName());
+            songName.setText(StringShortener.shortenString(currentSong.getSongName(), mainActivity.getResources(), null));
         }
 
         if(artistName != null) {
-            artistName.setText(currentSong.getArtistName());
+            artistName.setText(StringShortener.shortenString(currentSong.getArtistName(), mainActivity.getResources(), null));
         }
 
         Picasso.with(mainActivity).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(songIcon);
