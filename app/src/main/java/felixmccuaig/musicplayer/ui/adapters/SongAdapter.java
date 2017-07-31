@@ -61,7 +61,11 @@ public class SongAdapter extends BaseAdapter {
         songNameText.setText(currentSong.getSongName());
         artistText.setText(currentSong.getArtistName());
 
-        Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).into(albumArt);
+        Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(albumArt);
+
+        if(albumArt.getDrawable() == null) {
+            albumArt.setImageResource(R.mipmap.ic_launcher);
+        }
 
         songLayout.setTag(i);
         return songLayout;
