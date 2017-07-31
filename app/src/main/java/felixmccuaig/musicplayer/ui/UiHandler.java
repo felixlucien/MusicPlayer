@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 
 import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
+import felixmccuaig.musicplayer.backend.MediaController;
 import felixmccuaig.musicplayer.ui.adapters.ViewPagerAdapter;
 import felixmccuaig.musicplayer.ui.tabs.LocalSongsTab;
 
@@ -15,9 +16,11 @@ import felixmccuaig.musicplayer.ui.tabs.LocalSongsTab;
 public class UiHandler {
 
     public UiHandler(MainActivity activity) {
+        MediaController mediaController = new MediaController(activity);
+
         ViewPager viewPager = (ViewPager) activity.findViewById(R.id.tab_fragments_view);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
-        pagerAdapter.addFrag(LocalSongsTab.instansiate(), "Songs");
+        pagerAdapter.addFrag(LocalSongsTab.instansiate(mediaController), "Songs");
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = (TabLayout) activity.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

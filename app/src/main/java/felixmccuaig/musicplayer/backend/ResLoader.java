@@ -11,6 +11,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import felixmccuaig.musicplayer.Song;
@@ -41,10 +43,22 @@ public class ResLoader {
                 long albumID = musicCursor.getLong(albumIDColumn);
                 Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
                 Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumID);
-
                 songs.add(new Song(titleText, artistText, locationText, albumArtUri.toString(), songID));
             } while(musicCursor.moveToNext());
         }
+
+        songs.sort(new Comparator<Song>() {
+            @Override
+            public int compare(Song song, Song songTwo) {
+                if (song.getSongName().toCharArray()[0] > songTwo.getSongName().toCharArray()[0]) {
+                    return 1;
+                } else if(song.getSongName().toCharArray()[0] == songTwo.getSongName().toCharArray()[0]){
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        });
         return songs;
     }
 

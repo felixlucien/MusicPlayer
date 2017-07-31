@@ -58,6 +58,7 @@ public class SongAdapter extends BaseAdapter {
         ImageView albumArt = songLayout.findViewById(R.id.song_album_art);
 
         currentSong = songList.get(i);
+
         songNameText.setText(currentSong.getSongName());
         artistText.setText(currentSong.getArtistName());
 
