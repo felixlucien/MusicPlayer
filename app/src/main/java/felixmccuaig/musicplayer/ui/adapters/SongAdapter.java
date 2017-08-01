@@ -15,6 +15,7 @@ import java.util.List;
 
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
+import felixmccuaig.musicplayer.backend.utils.DurationToMins;
 import felixmccuaig.musicplayer.backend.utils.StringShortener;
 
 /**
@@ -57,13 +58,15 @@ public class SongAdapter extends BaseAdapter {
 
         currentSong = songList.get(i);
 
+        String artistString = currentSong.getArtistName() + " ● " + DurationToMins.convertDuration(currentSong.getSongDuration());
+
         songNameText.setText(StringShortener.shortenString(currentSong.getSongName(), c.getResources(), new int[]{20, 40, 50, 60}));
-        artistText.setText(StringShortener.shortenString(currentSong.getArtistName(), c.getResources(), new int[]{20, 40, 50, 60}));
+        artistText.setText(StringShortener.shortenString(artistString, c.getResources(), new int[]{20, 40, 50, 60}));
 
         Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(albumArt);
 
         if(albumArt.getDrawable() == null) {
-            albumArt.setImageResource(R.mipmap.ic_launcher);
+            Picasso.with(c).load(R.drawable.music_icon_stock).resize(100, 100).into(albumArt);
         }
 
         songLayout.setTag(i);

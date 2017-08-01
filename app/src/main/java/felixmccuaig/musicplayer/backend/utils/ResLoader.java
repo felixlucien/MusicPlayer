@@ -31,6 +31,7 @@ public class ResLoader {
             int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int indexColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
             int albumIDColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
+            int songDurationColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
             do {
                 String titleText = musicCursor.getString(titleColumn);
                 String artistText = musicCursor.getString(artistColumn);
@@ -39,7 +40,8 @@ public class ResLoader {
                 long albumID = musicCursor.getLong(albumIDColumn);
                 Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
                 Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumID);
-                songs.add(new Song(titleText, artistText, locationText, albumArtUri.toString(), songID));
+                long songDuration = musicCursor.getLong(songDurationColumn);
+                songs.add(new Song(titleText, artistText, locationText, albumArtUri.toString(), songID, songDuration));
             } while(musicCursor.moveToNext());
         }
 
@@ -61,7 +63,7 @@ public class ResLoader {
     public static List<Album> loadAlbums(ContentResolver resolver) {
         List<Album> albums = new ArrayList<>();
 
-        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri musicUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
 
         Cursor musicCursor = resolver.query(musicUri, null, null, null, null);
         if(musicCursor != null && musicCursor.moveToFirst()) {
@@ -74,8 +76,8 @@ public class ResLoader {
                 String titleText = musicCursor.getString(titleColumn);
                 String artistText = musicCursor.getString(artistColumn);
                 //String locationText = musicCursor.getString(indexColumn);
-                long songID = musicCursor.getLong(idColumn);
-                long albumID = musicCursor.getLong(albumIDColumn);
+                long albumID = musicCursor.getLong(idColumn);
+                //long albumID = musicCursor.getLong(albumIDColumn);
                 Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
                 Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumID);
                 albums.add(new Album(albumID, titleText, artistText, albumArtUri.toString(), getSongsFromAlbumID(albumID)));

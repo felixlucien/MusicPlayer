@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -96,11 +97,17 @@ public class MediaController {
             artistName.setText(StringShortener.shortenString(currentSong.getArtistName(), mainActivity.getResources(), null));
         }
 
-        Picasso.with(mainActivity).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(songIcon);
+        Picasso.with(mainActivity).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(songIcon, new Callback() {
+            @Override
+            public void onSuccess() {
 
-        if(songIcon.getDrawable() == null) {
-            songIcon.setImageResource(R.mipmap.ic_launcher);
-        }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
         try {
             mediaPlayer.setDataSource(currentSong.getSongLocation());

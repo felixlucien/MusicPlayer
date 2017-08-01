@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.List;
 
@@ -43,17 +44,14 @@ public class LocalAlbumsTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.album_layout, container, false);
+        View view = inflater.inflate(R.layout.grid_view_layout, container, false);
         GridView albumView = view.findViewById(R.id.grid_view);
         albums = ResLoader.loadAlbums(getActivity().getContentResolver());
 
-        AlbumAdapter albumAdapter = new AlbumAdapter(albums, inflater, getContext());
-
-        Log.d("ADAPTER TEXT", albumAdapter.getCount() + "");
-
-        albumView.setAdapter(albumAdapter);
+        Log.d("ALBUM VIEW", albumView.getColumnWidth() + "");
+        albumView.setAdapter(new AlbumAdapter(albums, inflater, getActivity().getApplicationContext()));
 
 
-        return albumView;
+        return view;
     }
 }

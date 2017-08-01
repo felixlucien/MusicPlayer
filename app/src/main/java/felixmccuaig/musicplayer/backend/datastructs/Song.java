@@ -7,14 +7,15 @@ package felixmccuaig.musicplayer.backend.datastructs;
 public class Song {
 
     private String songName, artistName, songLocation, songAlbumArtLocation;
-    private long songID, albumID;
+    private long songID, albumID, songDuration;
 
-    public Song(String songName, String artistName, String songLocation, String songAlbumArtLocation, long songID) {
+    public Song(String songName, String artistName, String songLocation, String songAlbumArtLocation, long songID, long songDuration) {
         this.songName = songName;
         this.artistName = artistName;
         this.songLocation = songLocation;
         this.songID = songID;
         this.songAlbumArtLocation = songAlbumArtLocation;
+        this.songDuration = songDuration;
     }
 
     public String getSongName() {
@@ -39,5 +40,9 @@ public class Song {
 
     public long getAlbumID() {
         return albumID;
+    }
+
+    public long getSongDuration() {
+        return songDuration;
     }
 }
