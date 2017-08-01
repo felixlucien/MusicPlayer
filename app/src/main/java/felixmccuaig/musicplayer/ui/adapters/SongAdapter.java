@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import felixmccuaig.musicplayer.R;
-import felixmccuaig.musicplayer.Song;
+import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.StringShortener;
 
 /**

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import felixmccuaig.musicplayer.R;
-import felixmccuaig.musicplayer.Song;
+import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.MediaController;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;

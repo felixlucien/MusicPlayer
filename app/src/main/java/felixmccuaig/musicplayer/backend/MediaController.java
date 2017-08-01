@@ -14,7 +14,7 @@ import java.util.List;
 
 import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
-import felixmccuaig.musicplayer.Song;
+import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.StringShortener;
 
 /**
@@ -97,6 +97,11 @@ public class MediaController {
         }
 
         Picasso.with(mainActivity).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(songIcon);
+
+        if(songIcon.getDrawable() == null) {
+            songIcon.setImageResource(R.mipmap.ic_launcher);
+        }
+
         try {
             mediaPlayer.setDataSource(currentSong.getSongLocation());
         } catch (IOException e) {

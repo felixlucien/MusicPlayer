@@ -1,4 +1,4 @@
-package felixmccuaig.musicplayer;
+package felixmccuaig.musicplayer.backend.datastructs;
 
 /**
  * Created by felixmccuaig on 30/7/17.

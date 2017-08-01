@@ -23,11 +23,6 @@ import felixmccuaig.musicplayer.ui.UiHandler;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    //TEST ONE TWO THREE THIS IS A LINE OF TEXT
-    //LINE TWO
-    //LINE THREE
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
