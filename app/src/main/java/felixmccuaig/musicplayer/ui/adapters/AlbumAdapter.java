@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AlbumAdapter extends BaseAdapter {
     private Album currentAlbum;
     private LayoutInflater albumInflater;
     private Context c;
+    private ImageView albumArt;
 
     public AlbumAdapter(List<Album> albumList, LayoutInflater albumInflater, Context c) {
         this.albumList = albumList;
@@ -52,21 +54,25 @@ public class AlbumAdapter extends BaseAdapter {
         RelativeLayout albumLayout = (RelativeLayout) albumInflater.inflate(R.layout.album_layout, null);
         TextView albumName = albumLayout.findViewById(R.id.album_name);
         TextView artistName = albumLayout.findViewById(R.id.album_artist);
-        ImageView albumArt = albumLayout.findViewById(R.id.album_image_large);
+        albumArt = albumLayout.findViewById(R.id.album_image_large);
 
         currentAlbum = albumList.get(i);
 
         albumName.setText(currentAlbum.getAlbumName());
         artistName.setText(currentAlbum.getArtistName());
-        Picasso.with(c).load(currentAlbum.getAlbumArtLocation()).resize(400, 400).into(albumArt);
+        Picasso.with(c).load(currentAlbum.getAlbumArtLocation()).resize(400, 400).into(albumArt, new Callback() {
+            @Override
+            public void onSuccess() {
 
-        if(albumArt.getDrawable() == null) {
-            Picasso.with(c).load(R.drawable.music_icon_stock).resize(400, 400).into(albumArt);
-        }
+            }
+
+            @Override
+            public void onError() {
+                Picasso.with(c).load(R.drawable.music_icon_stock).resize(400, 400).into(albumArt);
+            }
+        });
 
         albumLayout.setTag(i);
-
-
         return albumLayout;
     }
 }

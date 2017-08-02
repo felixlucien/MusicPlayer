@@ -1,6 +1,9 @@
 package felixmccuaig.musicplayer.ui.tabs;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,11 +15,16 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import felixmccuaig.musicplayer.AlbumActivity;
+import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.backend.MediaController;
 import felixmccuaig.musicplayer.backend.datastructs.Album;
+import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
 import felixmccuaig.musicplayer.ui.adapters.AlbumAdapter;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
@@ -50,6 +58,25 @@ public class LocalAlbumsTab extends Fragment {
 
         Log.d("ALBUM VIEW", albumView.getColumnWidth() + "");
         albumView.setAdapter(new AlbumAdapter(albums, inflater, getActivity().getApplicationContext()));
+
+        albumView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+
+                Album currentAlbum = albums.get(i);
+
+                intent.putExtra("ALBUM", currentAlbum);
+
+                List<Song> songsList = currentAlbum.getSongs();
+
+                Song[] songs = new Song[songsList.size()];
+                songs = songsList.toArray(songs);
+
+                intent.putExtra("SONGS", songs);
+                startActivity(intent);
+            }
+        });
 
 
         return view;

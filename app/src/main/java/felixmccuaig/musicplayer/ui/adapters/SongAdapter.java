@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class SongAdapter extends BaseAdapter {
     private Song currentSong;
     private LayoutInflater songInflater;
     private Context c;
+    private ImageView albumArt;
 
     public SongAdapter(List<Song> songList, LayoutInflater songInflater, Context c) {
         this.songList = songList;
@@ -54,7 +56,7 @@ public class SongAdapter extends BaseAdapter {
         RelativeLayout songLayout = (RelativeLayout) songInflater.inflate(R.layout.song_layout, null);
         TextView songNameText = songLayout.findViewById(R.id.song_name_text);
         TextView artistText = songLayout.findViewById(R.id.artist_name_text);
-        ImageView albumArt = songLayout.findViewById(R.id.song_album_art);
+        albumArt = songLayout.findViewById(R.id.song_album_art);
 
         currentSong = songList.get(i);
 
@@ -63,11 +65,19 @@ public class SongAdapter extends BaseAdapter {
         songNameText.setText(StringShortener.shortenString(currentSong.getSongName(), c.getResources(), new int[]{20, 40, 50, 60}));
         artistText.setText(StringShortener.shortenString(artistString, c.getResources(), new int[]{20, 40, 50, 60}));
 
-        Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(albumArt);
+        Picasso.with(c).load(currentSong.getSongAlbumArtLocation()).resize(100, 100).into(albumArt, new Callback() {
+            @Override
+            public void onSuccess() {
 
-        if(albumArt.getDrawable() == null) {
-            Picasso.with(c).load(R.drawable.music_icon_stock).resize(100, 100).into(albumArt);
-        }
+            }
+
+            @Override
+            public void onError() {
+                if(albumArt.getDrawable() == null) {
+                    Picasso.with(c).load(R.drawable.music_icon_stock).resize(100, 100).into(albumArt);
+                }
+            }
+        });
 
         songLayout.setTag(i);
         return songLayout;

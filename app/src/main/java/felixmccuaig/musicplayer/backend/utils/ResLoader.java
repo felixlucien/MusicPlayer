@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -80,15 +81,43 @@ public class ResLoader {
                 //long albumID = musicCursor.getLong(albumIDColumn);
                 Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
                 Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumID);
-                albums.add(new Album(albumID, titleText, artistText, albumArtUri.toString(), getSongsFromAlbumID(albumID)));
+                albums.add(new Album(albumID, titleText, artistText, albumArtUri.toString(), getSongsFromAlbumID(resolver, albumID)));
             } while(musicCursor.moveToNext());
         }
 
         return albums;
     }
 
-    private static List<Song> getSongsFromAlbumID(long albumID) {
-        return null;
+    private static List<Song> getSongsFromAlbumID(ContentResolver resolver, long conditionalAlbumID) {
+        List<Song> songs = new ArrayList<>();
+
+        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = resolver.query(musicUri, null, null, null, null);
+        if(musicCursor != null && musicCursor.moveToFirst()) {
+            int titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int indexColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+            int albumIDColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
+            int songDurationColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+            do {
+                String titleText = musicCursor.getString(titleColumn);
+                String artistText = musicCursor.getString(artistColumn);
+                String locationText = musicCursor.getString(indexColumn);
+
+                long songID = musicCursor.getLong(idColumn);
+                long albumID = musicCursor.getLong(albumIDColumn);
+                long songDuration = musicCursor.getLong(songDurationColumn);
+
+                Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+                Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumID);
+
+                if(albumID == conditionalAlbumID) {
+                    songs.add(new Song(titleText, artistText, locationText, albumArtUri.toString(), songID, songDuration));
+                }
+            } while(musicCursor.moveToNext());
+        }
+        return songs;
     }
 
 }
