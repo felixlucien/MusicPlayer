@@ -2,6 +2,9 @@ package felixmccuaig.musicplayer.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;

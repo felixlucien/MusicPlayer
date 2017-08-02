@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -28,10 +29,12 @@ public class MediaController {
     private List<Song> songs;
     private Song currentSong;
     private int songPos;
+    private boolean isSlidingPanelExpanded;
 
-    private Button playPauseButton, nextSongButton, lastSongButton;
+    private Button playPauseButton, nextSongButton, lastSongButton,
+            expandedPlayPauseButton, expandedNextSongButton, expandedLastSongButton;
     private TextView songName, artistName;
-    private ImageView songIcon;
+    private ImageView songIcon, expandedSongIcon;
     private MediaPlayer mediaPlayer;
 
     public MediaController(MainActivity mainActivity) {
@@ -53,7 +56,30 @@ public class MediaController {
         nextSongButton = (Button) mainActivity.findViewById(R.id.next_song_button);
         lastSongButton = (Button) mainActivity.findViewById(R.id.last_song_button);
 
+        expandedPlayPauseButton = (Button) mainActivity.findViewById(R.id.expanded_play_song);
+        expandedNextSongButton = (Button) mainActivity.findViewById(R.id.expanded_next_song);
+        expandedLastSongButton = (Button) mainActivity.findViewById(R.id.expanded_last_song);
+        expandedSongIcon = (ImageView) mainActivity.findViewById(R.id.expanded_album_art);
+        expandedSongIcon.setVisibility(View.INVISIBLE);
 
+        SlidingUpPanelLayout panelLayout = (SlidingUpPanelLayout) mainActivity.findViewById(R.id.sliding_layout);
+        panelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    isSlidingPanelExpanded = false;
+                    updateButtons(true);
+                } else if(newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    isSlidingPanelExpanded = true;
+                    updateButtons(false);
+                }
+            }
+        });
 
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +98,29 @@ public class MediaController {
 
 
         lastSongButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songPos--;
+                updateSong(songs.get(songPos), songPos);
+            }
+        });
+
+        expandedPlayPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updatePlayState();
+            }
+        });
+
+        expandedNextSongButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songPos++;
+                updateSong(songs.get(songPos), songPos);
+            }
+        });
+
+        expandedLastSongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 songPos--;
@@ -109,6 +158,18 @@ public class MediaController {
             }
         });
 
+        Picasso.with(mainActivity).load(currentSong.getSongAlbumArtLocation()).into(expandedSongIcon, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
         try {
             mediaPlayer.setDataSource(currentSong.getSongLocation());
         } catch (IOException e) {
@@ -122,10 +183,33 @@ public class MediaController {
         if(mediaPlayer.isPlaying()) {
             pause();
             playPauseButton.setText(">");
+            expandedPlayPauseButton.setText(">");
         } else {
             play();
             playPauseButton.setText("||");
+            expandedPlayPauseButton.setText("||");
         }
+    }
+
+    private void updateButtons(boolean isCollapsed) {
+        if(isCollapsed) {
+            playPauseButton.setVisibility(View.VISIBLE);
+            nextSongButton.setVisibility(View.VISIBLE);
+            lastSongButton.setVisibility(View.VISIBLE);
+            songName.setVisibility(View.VISIBLE);
+            artistName.setVisibility(View.VISIBLE);
+            songIcon.setVisibility(View.VISIBLE);
+            expandedSongIcon.setVisibility(View.INVISIBLE);
+        } else {
+            playPauseButton.setVisibility(View.INVISIBLE);
+            nextSongButton.setVisibility(View.INVISIBLE);
+            lastSongButton.setVisibility(View.INVISIBLE);
+            songName.setVisibility(View.INVISIBLE);
+            artistName.setVisibility(View.INVISIBLE);
+            songIcon.setVisibility(View.INVISIBLE);
+            expandedSongIcon.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void play() {
