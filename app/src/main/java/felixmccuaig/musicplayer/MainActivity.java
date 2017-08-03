@@ -1,6 +1,7 @@
 package felixmccuaig.musicplayer;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import felixmccuaig.musicplayer.backend.MediaService;
 import felixmccuaig.musicplayer.ui.UiHandler;
 
 public class MainActivity extends AppCompatActivity
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity
             case 1: {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     new UiHandler(this);
+                    startService(new Intent(this, MediaService.class));
                 } else {
                     Log.d("Permission Request", "REQUEST DENIED");
                 }

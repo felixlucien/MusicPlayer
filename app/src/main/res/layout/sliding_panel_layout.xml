@@ -91,7 +91,7 @@
         android:background="#C8FFFFFF">
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/song_progression_expanded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -102,7 +102,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/expanded_next_song"
-            android:layout_below="@+id/seekBar"
+            android:layout_below="@+id/song_progression_expanded"
             android:layout_centerHorizontal="true"
             android:text=">"
             android:textStyle="bold" />
@@ -112,7 +112,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/seekBar"
+            android:layout_below="@+id/song_progression_expanded"
             android:layout_toEndOf="@+id/expanded_play_song"
             android:layout_toRightOf="@+id/expanded_play_song"
             android:text=">>"
@@ -123,7 +123,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/seekBar"
+            android:layout_below="@+id/song_progression_expanded"
             android:layout_toLeftOf="@+id/expanded_play_song"
             android:layout_toStartOf="@+id/expanded_play_song"
             android:text="&lt;&lt;"

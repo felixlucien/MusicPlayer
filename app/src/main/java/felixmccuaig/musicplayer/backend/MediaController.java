@@ -1,10 +1,14 @@
 package felixmccuaig.musicplayer.backend;
 
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -13,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
@@ -36,6 +42,8 @@ public class MediaController {
     private TextView songName, artistName;
     private ImageView songIcon, expandedSongIcon;
     private MediaPlayer mediaPlayer;
+    private SeekBar songProgression;
+    private Handler seekBarHandler;
 
     public MediaController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -44,10 +52,13 @@ public class MediaController {
         artistName = (TextView) mainActivity.findViewById(R.id.artist_name_view);
         songIcon = (ImageView) mainActivity.findViewById(R.id.album_art_icon);
 
+        seekBarHandler = new Handler();
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
+                setupSeekbar();
                 updatePlayState();
             }
         });
@@ -61,6 +72,27 @@ public class MediaController {
         expandedLastSongButton = (Button) mainActivity.findViewById(R.id.expanded_last_song);
         expandedSongIcon = (ImageView) mainActivity.findViewById(R.id.expanded_album_art);
         expandedSongIcon.setVisibility(View.INVISIBLE);
+
+        songProgression = (SeekBar) mainActivity.findViewById(R.id.song_progression_expanded);
+
+        songProgression.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(b) {
+                    mediaPlayer.seekTo(i);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         SlidingUpPanelLayout panelLayout = (SlidingUpPanelLayout) mainActivity.findViewById(R.id.sliding_layout);
         panelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -210,6 +242,23 @@ public class MediaController {
             expandedSongIcon.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    private void setupSeekbar() {
+        int duration = mediaPlayer.getDuration();
+        int delay = 1000;
+
+        songProgression.setMax(duration);
+
+        seekBarHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                songProgression.setProgress(mediaPlayer.getCurrentPosition());
+                if(mediaPlayer.isPlaying()) {
+                    seekBarHandler.postDelayed(this, 1000);
+                }
+            }
+        }, delay);
     }
 
     private void play() {

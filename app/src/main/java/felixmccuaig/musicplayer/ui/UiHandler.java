@@ -20,7 +20,6 @@ import felixmccuaig.musicplayer.ui.tabs.LocalSongsTab;
 public class UiHandler {
 
     public UiHandler(MainActivity activity) {
-        MediaController mediaController = new MediaController(activity);
 
         ViewPager viewPager = (ViewPager) activity.findViewById(R.id.tab_fragments_view);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());

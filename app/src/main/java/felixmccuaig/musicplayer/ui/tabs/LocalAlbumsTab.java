@@ -63,22 +63,15 @@ public class LocalAlbumsTab extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), AlbumActivity.class);
-
                 Album currentAlbum = albums.get(i);
-
                 intent.putExtra("ALBUM", currentAlbum);
-
                 List<Song> songsList = currentAlbum.getSongs();
-
                 Song[] songs = new Song[songsList.size()];
                 songs = songsList.toArray(songs);
-
                 intent.putExtra("SONGS", songs);
                 startActivity(intent);
             }
         });
-
-
         return view;
     }
 }
