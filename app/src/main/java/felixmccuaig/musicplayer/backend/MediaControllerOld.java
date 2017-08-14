@@ -29,7 +29,7 @@ import felixmccuaig.musicplayer.backend.utils.StringShortener;
  * Created by felixmccuaig on 30/7/17.
  */
 
-public class MediaController {
+public class MediaControllerOld {
 
     private MainActivity mainActivity;
     private List<Song> songs;
@@ -45,7 +45,9 @@ public class MediaController {
     private SeekBar songProgression;
     private Handler seekBarHandler;
 
-    public MediaController(MainActivity mainActivity) {
+
+
+    public MediaControllerOld(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
 
         songName = (TextView) mainActivity.findViewById(R.id.song_name_view);

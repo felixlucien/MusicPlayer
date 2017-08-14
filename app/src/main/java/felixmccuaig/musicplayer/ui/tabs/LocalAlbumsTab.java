@@ -2,8 +2,6 @@ package felixmccuaig.musicplayer.ui.tabs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,22 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import felixmccuaig.musicplayer.AlbumActivity;
-import felixmccuaig.musicplayer.MainActivity;
 import felixmccuaig.musicplayer.R;
-import felixmccuaig.musicplayer.backend.MediaController;
+import felixmccuaig.musicplayer.backend.MediaControllerOld;
 import felixmccuaig.musicplayer.backend.datastructs.Album;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
 import felixmccuaig.musicplayer.ui.adapters.AlbumAdapter;
-import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 /**
  * Created by Felix McCuaig on 1/08/2017.
@@ -37,7 +29,7 @@ public class LocalAlbumsTab extends Fragment {
     List<Album> albums;
 
 
-    public static Fragment instansiate(MediaController mediaController){
+    public static Fragment instansiate(MediaControllerOld mediaController){
         LocalAlbumsTab albumsTab = new LocalAlbumsTab();
 
         return albumsTab;

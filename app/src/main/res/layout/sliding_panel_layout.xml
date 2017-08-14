@@ -98,36 +98,36 @@
             android:layout_alignParentStart="true" />
 
         <Button
-            android:id="@+id/expanded_play_song"
+            android:id="@+id/play_pause_button_expanded"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/expanded_next_song"
+            android:layout_alignBottom="@+id/next_song_button_expanded"
             android:layout_below="@+id/song_progression_expanded"
             android:layout_centerHorizontal="true"
             android:text=">"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/expanded_next_song"
+            android:id="@+id/next_song_button_expanded"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/song_progression_expanded"
-            android:layout_toEndOf="@+id/expanded_play_song"
-            android:layout_toRightOf="@+id/expanded_play_song"
+            android:layout_toEndOf="@+id/play_pause_button_expanded"
+            android:layout_toRightOf="@+id/play_pause_button_expanded"
             android:text=">>"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/expanded_last_song"
+            android:id="@+id/last_song_button_expanded"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/song_progression_expanded"
-            android:layout_toLeftOf="@+id/expanded_play_song"
-            android:layout_toStartOf="@+id/expanded_play_song"
+            android:layout_toLeftOf="@+id/play_pause_button_expanded"
+            android:layout_toStartOf="@+id/play_pause_button_expanded"
             android:text="&lt;&lt;"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 

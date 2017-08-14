@@ -12,8 +12,8 @@ import android.widget.ListView;
 import java.util.List;
 
 import felixmccuaig.musicplayer.R;
+import felixmccuaig.musicplayer.backend.MediaControllerOld;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
-import felixmccuaig.musicplayer.backend.MediaController;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
@@ -23,9 +23,9 @@ import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 public class LocalSongsTab extends Fragment {
     private List<Song> songList;
-    private MediaController mediaController;
+    private MediaControllerOld mediaController;
 
-    public static Fragment instansiate(MediaController mediaController) {
+    public static Fragment instansiate(MediaControllerOld mediaController) {
         LocalSongsTab songsTab = new LocalSongsTab();
         songsTab.mediaController = mediaController;
         return songsTab;

@@ -1,11 +1,9 @@
 package felixmccuaig.musicplayer.backend;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 /**
@@ -18,17 +16,23 @@ public class MediaService extends Service {
    // private Activity currentActivity;
 
     private MediaPlayer mediaPlayer;
+    private MediaControllerOld mediaController;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+
+        mediaController = intent.getExtras().getParcelable("MEDIA_CONTROLLER");
+
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //MediaController mediaController = new MediaController(activity);
+        //MediaControllerOld mediaController = new MediaControllerOld(activity);
         mediaPlayer = new MediaPlayer();
+
+
 
 
         return super.onStartCommand(intent, flags, startId);
