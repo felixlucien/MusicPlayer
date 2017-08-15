@@ -3,8 +3,10 @@ package felixmccuaig.musicplayer.backend;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,8 +24,7 @@ public class MediaService extends Service implements MediaControlFrameWork, Medi
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     public static final String TAG = "Media Service";
 
-   // private Activity currentActivity;
-
+    private final IBinder iBinder = new MediaBinder();
     private MediaPlayer mediaPlayer;
 
     private List<Song> songs;
@@ -44,10 +45,7 @@ public class MediaService extends Service implements MediaControlFrameWork, Medi
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-
-
-
-        return null;
+        return iBinder;
     }
 
     @Override
@@ -87,6 +85,7 @@ public class MediaService extends Service implements MediaControlFrameWork, Medi
 
     @Override
     public void updateSong(Song song) {
+        Log.d("UPDATE SONG", "SONG UPDATED");
         mediaPlayer.reset();
         currentSong = song;
         try {
@@ -135,4 +134,11 @@ public class MediaService extends Service implements MediaControlFrameWork, Medi
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
         return false;
     }
+
+    public class MediaBinder extends Binder {
+        public MediaService getService() {
+            return MediaService.this;
+        }
+    }
+
 }

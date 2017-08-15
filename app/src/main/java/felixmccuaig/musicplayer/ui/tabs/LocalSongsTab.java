@@ -13,9 +13,9 @@ import java.util.List;
 
 import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.backend.MediaControllerOld;
+import felixmccuaig.musicplayer.backend.MediaService;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
-import felixmccuaig.musicplayer.ui.MediaController;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 /**
@@ -24,11 +24,11 @@ import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 public class LocalSongsTab extends Fragment {
     private List<Song> songList;
-    private MediaController mediaController;
+    private MediaService mediaService;
 
-    public static Fragment instansiate(MediaController mediaController) {
+    public static Fragment instantiate(MediaService mediaService) {
         LocalSongsTab songsTab = new LocalSongsTab();
-        songsTab.mediaController = mediaController;
+        songsTab.mediaService = mediaService;
         return songsTab;
     }
 
@@ -42,13 +42,19 @@ public class LocalSongsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_list_layout, container, false);
         ListView songsView = view.findViewById(R.id.tab_list_view);
+
         songList = ResLoader.loadSongs(getActivity().getContentResolver());
-        //mediaController.setSongs(songList);
+        if(mediaService != null) {
+            mediaService.setSongs(songList);
+        }
+
         songsView.setAdapter(new SongAdapter(songList, inflater, getActivity().getApplicationContext()));
         songsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //mediaController.updateSong(songList.get(i), i);
+                if(mediaService != null) {
+                    mediaService.updateSong(songList.get(i));
+                }
             }
         });
         return view;

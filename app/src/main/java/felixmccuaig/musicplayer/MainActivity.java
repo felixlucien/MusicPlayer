@@ -1,6 +1,7 @@
 package felixmccuaig.musicplayer;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,32 +28,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import felixmccuaig.musicplayer.backend.LocalService;
 import felixmccuaig.musicplayer.backend.MediaService;
-import felixmccuaig.musicplayer.ui.MediaController;
 import felixmccuaig.musicplayer.ui.UiHandler;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    UiHandler uiHandler;
-    MediaService mediaService;
+    private UiHandler uiHandler;
+    public MediaService mediaService;
 
-    protected ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+    boolean mBound;
 
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -71,6 +61,8 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
+
+
     }
 
     @Override
@@ -78,51 +70,13 @@ public class MainActivity extends AppCompatActivity
         switch(requestCode) {
             case 1: {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent i = new Intent(this, MediaService.class);
-
                     uiHandler = new UiHandler(this);
-
-
-                    startService(i);
-
                 } else {
                     Log.d("Permission Request", "REQUEST DENIED");
                 }
                 return;
             }
-
         }
-    }
-
-    private MediaController initMediaController(MainActivity activity) {
-        List<Button> buttonSmall = new ArrayList<>();
-        buttonSmall.add((Button) activity.findViewById(R.id.play_pause_button));
-        buttonSmall.add((Button) activity.findViewById(R.id.next_song_button));
-        buttonSmall.add((Button) activity.findViewById(R.id.last_song_button));
-
-        List<Button> buttonLarge = new ArrayList<>();
-        buttonLarge.add((Button) activity.findViewById(R.id.play_pause_button_expanded));
-        buttonLarge.add((Button) activity.findViewById(R.id.next_song_button_expanded));
-        buttonLarge.add((Button) activity.findViewById(R.id.next_song_button_expanded));
-
-        List<List<Button>> buttons = new ArrayList<>();
-        buttons.add(buttonSmall);
-        buttons.add(buttonLarge);
-
-        List<TextView> textViewSmall = new ArrayList<>();
-        textViewSmall.add((TextView) activity.findViewById(R.id.song_name_view));
-        textViewSmall.add((TextView) activity.findViewById(R.id.artist_name_text));
-
-        List<List<TextView>> textViews = new ArrayList<>();
-        textViews.add(textViewSmall);
-
-        List<ImageView> imageViews = new ArrayList<>();
-        imageViews.add((ImageView) activity.findViewById(R.id.album_art_icon));
-        imageViews.add((ImageView) activity.findViewById(R.id.album_image_large));
-
-        SeekBar songProgression = (SeekBar) activity.findViewById(R.id.song_progression_expanded);
-
-        return new MediaController(buttons, textViews, imageViews, songProgression, activity);
     }
 
     @Override
@@ -130,17 +84,17 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         Intent intent = new Intent(this, MediaService.class);
-        intent.putExtra();
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-        startService(intent);
+        //I//ntent intent = new Intent(this, MediaService.class);
+        //bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        //startService(intent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unbindService(serviceConnection);
-
+        unbindService(mConnection);
     }
 
     @Override
@@ -199,4 +153,22 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.d("SERVICE BOUND", "SERVICE BOUND");
+            MediaService.MediaBinder binder = (MediaService.MediaBinder) service;
+            mediaService = binder.getService();
+
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+
 }
