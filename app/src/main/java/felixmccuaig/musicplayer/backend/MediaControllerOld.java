@@ -69,9 +69,9 @@ public class MediaControllerOld {
         nextSongButton = (Button) mainActivity.findViewById(R.id.next_song_button);
         lastSongButton = (Button) mainActivity.findViewById(R.id.last_song_button);
 
-        expandedPlayPauseButton = (Button) mainActivity.findViewById(R.id.expanded_play_song);
-        expandedNextSongButton = (Button) mainActivity.findViewById(R.id.expanded_next_song);
-        expandedLastSongButton = (Button) mainActivity.findViewById(R.id.expanded_last_song);
+        //expandedPlayPauseButton = (Button) mainActivity.findViewById(R.id.expanded_play_song);
+        //expandedNextSongButton = (Button) mainActivity.findViewById(R.id.expanded_next_song);
+        //expandedLastSongButton = (Button) mainActivity.findViewById(R.id.expanded_last_song);
         expandedSongIcon = (ImageView) mainActivity.findViewById(R.id.expanded_album_art);
         expandedSongIcon.setVisibility(View.INVISIBLE);
 

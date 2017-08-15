@@ -19,6 +19,7 @@ import felixmccuaig.musicplayer.backend.MediaControllerOld;
 import felixmccuaig.musicplayer.backend.datastructs.Album;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
+import felixmccuaig.musicplayer.ui.MediaController;
 import felixmccuaig.musicplayer.ui.adapters.AlbumAdapter;
 
 /**
@@ -29,7 +30,7 @@ public class LocalAlbumsTab extends Fragment {
     List<Album> albums;
 
 
-    public static Fragment instansiate(MediaControllerOld mediaController){
+    public static Fragment instansiate(MediaController mediaController){
         LocalAlbumsTab albumsTab = new LocalAlbumsTab();
 
         return albumsTab;

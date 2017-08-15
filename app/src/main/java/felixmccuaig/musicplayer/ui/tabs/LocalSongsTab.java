@@ -15,6 +15,7 @@ import felixmccuaig.musicplayer.R;
 import felixmccuaig.musicplayer.backend.MediaControllerOld;
 import felixmccuaig.musicplayer.backend.datastructs.Song;
 import felixmccuaig.musicplayer.backend.utils.ResLoader;
+import felixmccuaig.musicplayer.ui.MediaController;
 import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 /**
@@ -23,9 +24,9 @@ import felixmccuaig.musicplayer.ui.adapters.SongAdapter;
 
 public class LocalSongsTab extends Fragment {
     private List<Song> songList;
-    private MediaControllerOld mediaController;
+    private MediaController mediaController;
 
-    public static Fragment instansiate(MediaControllerOld mediaController) {
+    public static Fragment instansiate(MediaController mediaController) {
         LocalSongsTab songsTab = new LocalSongsTab();
         songsTab.mediaController = mediaController;
         return songsTab;
@@ -42,12 +43,12 @@ public class LocalSongsTab extends Fragment {
         View view = inflater.inflate(R.layout.tab_list_layout, container, false);
         ListView songsView = view.findViewById(R.id.tab_list_view);
         songList = ResLoader.loadSongs(getActivity().getContentResolver());
-        mediaController.setSongs(songList);
+        //mediaController.setSongs(songList);
         songsView.setAdapter(new SongAdapter(songList, inflater, getActivity().getApplicationContext()));
         songsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mediaController.updateSong(songList.get(i), i);
+                //mediaController.updateSong(songList.get(i), i);
             }
         });
         return view;

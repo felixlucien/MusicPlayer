@@ -22,6 +22,10 @@ public interface MediaControlFrameWork {
 
     void playSong();
 
+    void nextSong();
+
+    void lastSong();
+
     void pauseSong();
 
     void stopSong();

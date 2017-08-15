@@ -22,8 +22,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import felixmccuaig.musicplayer.backend.MediaService;
+import felixmccuaig.musicplayer.ui.MediaController;
 import felixmccuaig.musicplayer.ui.UiHandler;
 
 public class MainActivity extends AppCompatActivity
@@ -70,8 +78,13 @@ public class MainActivity extends AppCompatActivity
         switch(requestCode) {
             case 1: {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent i = new Intent(this, MediaService.class);
+
                     uiHandler = new UiHandler(this);
-                    startService(new Intent(this, MediaService.class));
+
+
+                    startService(i);
+
                 } else {
                     Log.d("Permission Request", "REQUEST DENIED");
                 }
@@ -81,11 +94,44 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private MediaController initMediaController(MainActivity activity) {
+        List<Button> buttonSmall = new ArrayList<>();
+        buttonSmall.add((Button) activity.findViewById(R.id.play_pause_button));
+        buttonSmall.add((Button) activity.findViewById(R.id.next_song_button));
+        buttonSmall.add((Button) activity.findViewById(R.id.last_song_button));
+
+        List<Button> buttonLarge = new ArrayList<>();
+        buttonLarge.add((Button) activity.findViewById(R.id.play_pause_button_expanded));
+        buttonLarge.add((Button) activity.findViewById(R.id.next_song_button_expanded));
+        buttonLarge.add((Button) activity.findViewById(R.id.next_song_button_expanded));
+
+        List<List<Button>> buttons = new ArrayList<>();
+        buttons.add(buttonSmall);
+        buttons.add(buttonLarge);
+
+        List<TextView> textViewSmall = new ArrayList<>();
+        textViewSmall.add((TextView) activity.findViewById(R.id.song_name_view));
+        textViewSmall.add((TextView) activity.findViewById(R.id.artist_name_text));
+
+        List<List<TextView>> textViews = new ArrayList<>();
+        textViews.add(textViewSmall);
+
+        List<ImageView> imageViews = new ArrayList<>();
+        imageViews.add((ImageView) activity.findViewById(R.id.album_art_icon));
+        imageViews.add((ImageView) activity.findViewById(R.id.album_image_large));
+
+        SeekBar songProgression = (SeekBar) activity.findViewById(R.id.song_progression_expanded);
+
+        return new MediaController(buttons, textViews, imageViews, songProgression, activity);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         Intent intent = new Intent(this, MediaService.class);
+        intent.putExtra();
+
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         startService(intent);
     }
